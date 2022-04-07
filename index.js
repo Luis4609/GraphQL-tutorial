@@ -66,7 +66,7 @@ const typeDefinitions = gql`
 
   type Query {
     personCount: Int!
-    allPersons(phone: 'YesNo'): [Person]!
+    allPersons(phone: YesNo): [Person]!
     findPerson(name: String!): Person
   }
 
@@ -77,7 +77,10 @@ const typeDefinitions = gql`
       street: String!
       city: String!
     ): Person
-    editNumber(name: String!, phone: String!): Person
+    editNumber(
+      name: String!
+      phone: String!
+    ): Person
   }
 `;
 
@@ -109,16 +112,16 @@ const resolvers = {
       return person;
     },
     editNumber: (root, args) => {
-      const personIndex = personas.findIndex((p) => p.name === args.name);
-      if (personIndex === -1) return null;
+      const personIndex = personas.findIndex(p => p.name === args.name)
+      if(personIndex === -1) return null
 
-      const person = personas[personIndex];
+      const person = personas[personIndex]
 
-      const updatePerson = { ...person, phone: args.phone };
-      personas[personIndex] = updatePerson;
-
-      return updatePerson;
-    },
+      const updatePerson = {...person, phone: args.phone}
+      personas[personIndex] = updatePerson
+      
+      return updatePerson
+    }
   },
   Person: {
     address: (root) => {
